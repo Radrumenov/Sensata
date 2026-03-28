@@ -1,34 +1,92 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Sensata Dashboard</title>
-    <style>
-        body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-        .machine { background: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .Green { border-top: 5px solid #2ecc71; }
-        .Red { border-top: 5px solid #e74c3c; animation: blink 1s infinite; }
-        @keyframes blink { 50% { opacity: 0.5; } }
-    </style>
-</head>
-<body>
-    <h1>Sensata Production Status (31 Machines)</h1>
-    <div id="dashboard" class="grid">Зареждане...</div>
+<meta charset="UTF-8">
+<div class="upload-section" style="padding: 20px; background: #f8f9fa; border-radius: 8px; max-width: 600px; margin: 20px auto; font-family: Arial, sans-serif;">
+    <h3 style="margin-top: 0; color: #333;">📅 Дневен План (Excel Upload)</h3>
+    <p style="color: #666; font-size: 14px;">Качете Excel файла с таргетите за деня, за да сверим реалното производство.</p>
+    
+    <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="margin-bottom: 15px; display: block;" />
+    
+    <button onclick="uploadExcelPlan()" style="background: #0056b3; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+        Анализирай Плана
+    </button>
 
-    <script>
-        // Извикваме нашето C# API
-        fetch('/api/machines')
-            .then(res => res.json())
-            .then(data => {
-                const container = document.getElementById('dashboard');
-                container.innerHTML = data.map(m => `
-                    <div class="machine ${m.status}">
-                        <strong>${m.name}</strong><br>
-                        Status: ${m.status}<br>
-                        <small>Updated: ${m.lastUpdate}</small>
-                    </div>
-                `).join('');
+    <div id="resultsContainer" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+    </div>
+</div>
+<script>
+    async function uploadExcelPlan() {
+        const fileInput = document.getElementById('excelFileInput');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const file = fileInput.files[0];
+
+        // 1. Проверка дали потребителят е избрал файл
+        if (!file) {
+            alert("Моля, първо изберете Excel файл!");
+            return;
+        }
+
+        // 2. Подготвяме файла за изпращане (FormData имитира HTML форма)
+        const formData = new FormData();
+        formData.append("file", file);
+
+        // Показваме надпис, че зареждаме
+        resultsContainer.innerHTML = "<p style='color: #666;'>⏳ Обработка на данните...</p>";
+
+        try {
+            // 3. Изпращаме файла към нашия C# Backend (към DashboardController)
+            const response = await fetch('/api/dashboard/upload-excel-targets', {
+                method: 'POST',
+                body: formData
             });
-    </script>
-</body>
-</html>
+
+            if (!response.ok) {
+                throw new Error("Възникна грешка при комуникацията със сървъра.");
+            }
+
+            // 4. Получаваме готовите сметнати данни от C# в JSON формат
+            const data = await response.json();
+
+            // 5. Визуализираме резултатите
+            displayResults(data);
+
+        } catch (error) {
+            console.error("Грешка:", error);
+            resultsContainer.innerHTML = `<p style="color: red;">❌ Грешка при качване: ${error.message}</p>`;
+        }
+    }
+
+    // Тази функция "рисува" правоъгълниците (Зелено/Червено) на база на отговора от бекенда
+    function displayResults(data) {
+        const resultsContainer = document.getElementById('resultsContainer');
+        resultsContainer.innerHTML = ''; // Изчистваме стария текст "Зареждане..."
+
+        if (data.length === 0) {
+            resultsContainer.innerHTML = "<p>Няма намерени съвпадения за днес.</p>";
+            return;
+        }
+
+        // За всяка машина създаваме по една "картичка"
+        data.forEach(item => {
+            // Определяме цвета спрямо това, което ни е върнал C# кодът
+            const isGreen = item.deliveryStatus === "Green";
+            const bgColor = isGreen ? "#d4edda" : "#f8d7da";
+            const textColor = isGreen ? "#155724" : "#721c24";
+            const borderCol = isGreen ? "#c3e6cb" : "#f5c6cb";
+            const icon = isGreen ? "✅" : "❌";
+
+            const cardHtml = `
+                <div style="background: ${bgColor}; color: ${textColor}; border: 1px solid ${borderCol}; padding: 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <strong style="font-size: 16px;">Машина ID: ${item.machineId}</strong><br/>
+                        <span style="font-size: 14px;">План: <b>${item.target}</b> бр. | Произведени: <b>${item.actual}</b> бр.</span>
+                    </div>
+                    <div style="font-size: 24px;">
+                        ${icon}
+                    </div>
+                </div>
+            `;
+            
+            // Добавяме генерирания HTML към контейнера
+            resultsContainer.innerHTML += cardHtml;
+        });
+    }
+</script>

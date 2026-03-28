@@ -5,7 +5,6 @@ public class MachineAlert
         public int Id { get; set; }
         public int MachineId { get; set; }
         public DateTime Timestamp { get; set; }
-        public string AlertType { get; set; } = ""; // "Alarm" или "Deviation"
-        public string Severity { get; set; } = "";  // "Warning", "Critical"
-        public string Message { get; set; } = "";   // Описание на проблема
+        public string ErrorCode { get; set; } = ""; // напр. ERR-TEMP-01
+        public double RawValue { get; set; }        // Отчетената стойност от сензора
     }

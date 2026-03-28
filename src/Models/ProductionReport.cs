@@ -13,8 +13,6 @@ namespace Sensata.Models;
         public double AvgPressure { get; set; }     // Средно налягане (bar)
         public double EnergyConsumed { get; set; }  // Консумирана енергия (kWh)
 
-        // KPI
-        public double OEE { get; set; }             // Overall Equipment Effectiveness (%)
-        
+        // KPI       
         public string OperatorComment { get; set; } = ""; // Коментар на оператора
     }
