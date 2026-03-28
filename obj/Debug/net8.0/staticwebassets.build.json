@@ -1,0 +1,39 @@
+{
+  "Version": 1,
+  "Hash": "KXcOCSpurrqlcuLkv4SUDrH1FHWXnnHSiqcBac5qxoQ=",
+  "Source": "Sensata",
+  "BasePath": "_content/Sensata",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Sensata/wwwroot",
+      "Source": "Sensata",
+      "ContentRoot": "/home/radi/Documents/Sensata/wwwroot/",
+      "BasePath": "_content/Sensata",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/home/radi/Documents/Sensata/wwwroot/index.html",
+      "SourceId": "Sensata",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/radi/Documents/Sensata/wwwroot/",
+      "BasePath": "_content/Sensata",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/index.html"
+    }
+  ]
+}

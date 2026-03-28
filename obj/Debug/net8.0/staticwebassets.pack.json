@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "/home/radi/Documents/Sensata/wwwroot/index.html",
+      "PackagePath": "staticwebassets/index.html"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.Sensata.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.Sensata.props",
+      "PackagePath": "build\\Sensata.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.Sensata.props",
+      "PackagePath": "buildMultiTargeting\\Sensata.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Sensata.props",
+      "PackagePath": "buildTransitive\\Sensata.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
