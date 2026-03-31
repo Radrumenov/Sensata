@@ -1,6 +1,6 @@
 <meta charset="UTF-8">
 <div class="upload-section" style="padding: 20px; background: #f8f9fa; border-radius: 8px; max-width: 600px; margin: 20px auto; font-family: Arial, sans-serif;">
-    <h3 style="margin-top: 0; color: #333;">📅 Дневен План (Excel Upload)</h3>
+    <h3 style="margin-top: 0; color: #333;"> Дневен План (Excel Upload)</h3>
     <p style="color: #666; font-size: 14px;">Качете Excel файла с таргетите за деня, за да сверим реалното производство.</p>
     
     <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="margin-bottom: 15px; display: block;" />
@@ -29,7 +29,7 @@
         formData.append("file", file);
 
         // Показваме надпис, че зареждаме
-        resultsContainer.innerHTML = "<p style='color: #666;'>⏳ Обработка на данните...</p>";
+        resultsContainer.innerHTML = "<p style='color: #666;'> Обработка на данните...</p>";
 
         try {
             // 3. Изпращаме файла към нашия C# Backend (към DashboardController)
@@ -50,7 +50,7 @@
 
         } catch (error) {
             console.error("Грешка:", error);
-            resultsContainer.innerHTML = `<p style="color: red;">❌ Грешка при качване: ${error.message}</p>`;
+            resultsContainer.innerHTML = `<p style="color: red;">Грешка при качване: ${error.message}</p>`;
         }
     }
 
@@ -71,7 +71,7 @@
             const bgColor = isGreen ? "#d4edda" : "#f8d7da";
             const textColor = isGreen ? "#155724" : "#721c24";
             const borderCol = isGreen ? "#c3e6cb" : "#f5c6cb";
-            const icon = isGreen ? "✅" : "❌";
+            const icon = isGreen ? "" : "";
 
             const cardHtml = `
                 <div style="background: ${bgColor}; color: ${textColor}; border: 1px solid ${borderCol}; padding: 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
