@@ -1,0 +1,225 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  padding: 20px;
+}
+
+/* ХЕДЪР */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #16213e;
+  padding: 16px 24px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+header h1 {
+  font-size: 1.4rem;
+  color: #00d4ff;
+}
+
+#health-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  background-color: #f0a500;
+  color: #1a1a2e;
+}
+
+/* МЕТА БАР */
+#meta-bar {
+  display: flex;
+  gap: 24px;
+  background-color: #16213e;
+  padding: 10px 24px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+#meta-bar strong {
+  color: #e0e0e0;
+}
+
+/* СЦЕНАРИЙ БУТОНИ */
+#scenarios {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.scenario-btn {
+  padding: 10px 20px;
+  border: 2px solid #00d4ff;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #00d4ff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.scenario-btn:hover,
+.scenario-btn.active {
+  background-color: #00d4ff;
+  color: #1a1a2e;
+  font-weight: bold;
+}
+
+/* ГЛАВЕН GRID */
+#dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 20px;
+}
+
+/* KPI КАРТИ */
+#kpi-section {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.kpi-card {
+  background-color: #16213e;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  border-left: 4px solid #555;
+}
+
+.kpi-card h3 {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.kpi-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #e0e0e0;
+}
+
+.kpi-target {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+.kpi-delta {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+/* KPI ЦВЕТОВЕ */
+.status-green { border-left-color: #00c853; }
+.status-green .kpi-delta { color: #00c853; }
+
+.status-yellow { border-left-color: #f0a500; }
+.status-yellow .kpi-delta { color: #f0a500; }
+
+.status-red { border-left-color: #d50000; }
+.status-red .kpi-delta { color: #d50000; }
+
+/* СЕКЦИИ */
+section {
+  background-color: #16213e;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+section h2 {
+  font-size: 1rem;
+  color: #00d4ff;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ГРАФИКА */
+#chart-section canvas {
+  max-height: 220px;
+}
+
+/* АНОМАЛИИ */
+#anomaly-list li,
+#historical-list li {
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  background-color: #0f3460;
+  list-style: none;
+  font-size: 0.9rem;
+}
+
+/* ОПЕРАТОРСКИ КОМЕНТАР */
+#comment-date {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 6px;
+}
+
+#comment-text {
+  font-style: italic;
+  color: #ccc;
+}
+
+/* COPILOT ПАНЕЛ */
+#right-col section {
+  height: 100%;
+}
+
+#copilot-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #00d4ff;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.2s;
+}
+
+#copilot-btn:hover {
+  background-color: #00b8d9;
+}
+
+#copilot-content h3 {
+  font-size: 0.85rem;
+  color: #aaa;
+  text-transform: uppercase;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+#copilot-content p,
+#copilot-content li {
+  font-size: 0.9rem;
+  color: #ccc;
+  line-height: 1.5;
+}
+
+#copilot-content ul {
+  padding-left: 16px;
+}
+
+#copilot-content li {
+  margin-bottom: 4px;
+}
