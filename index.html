@@ -1,0 +1,120 @@
+<body>
+
+  <!-- ГОРНА ЛЕНТА -->
+  <header>
+    <h1>Production Insight Copilot</h1>
+    <span id="health-badge">Зареждане...</span>
+  </header>
+
+  <!-- МЕТА ИНФОРМАЦИЯ -->
+  <div id="meta-bar">
+    <span>Линия: <strong id="meta-line">-</strong></span>
+    <span>Смяна: <strong id="meta-shift">-</strong></span>
+    <span>Период: <strong id="meta-date">-</strong></span>
+    <span>Сценарий: <strong id="meta-scenario">-</strong></span>
+  </div>
+
+  <!-- ИЗБОР НА СЦЕНАРИЙ -->
+  <section id="scenarios">
+    <button class="scenario-btn" data-scenario="1">Микро-спирания</button>
+    <button class="scenario-btn" data-scenario="2">Performance vs Качество</button>
+    <button class="scenario-btn" data-scenario="3">Предиктивна Поддръжка</button>
+  </section>
+
+  <!-- ГЛАВЕН WRAPPER -->
+  <main id="dashboard-grid">
+
+    <!-- ЛЯВА КОЛОНА -->
+    <div id="left-col">
+
+      <!-- KPI КАРТИ -->
+      <section id="kpi-section">
+        <div class="kpi-card" id="kpi-availability">
+          <h3>Наличност</h3>
+          <p class="kpi-value">-</p>
+          <p class="kpi-target">Цел: -</p>
+          <p class="kpi-delta">-</p>
+        </div>
+        <div class="kpi-card" id="kpi-performance">
+          <h3>Performance</h3>
+          <p class="kpi-value">-</p>
+          <p class="kpi-target">Цел: -</p>
+          <p class="kpi-delta">-</p>
+        </div>
+        <div class="kpi-card" id="kpi-quality">
+          <h3>Качество</h3>
+          <p class="kpi-value">-</p>
+          <p class="kpi-target">Цел: -</p>
+          <p class="kpi-delta">-</p>
+        </div>
+        <div class="kpi-card" id="kpi-oee">
+          <h3>OEE</h3>
+          <p class="kpi-value">-</p>
+          <p class="kpi-target">Цел: -</p>
+          <p class="kpi-delta">-</p>
+        </div>
+        <div class="kpi-card" id="kpi-energy">
+          <h3>Енергоинтензивност</h3>
+          <p class="kpi-value">-</p>
+          <p class="kpi-target">Цел: -</p>
+          <p class="kpi-delta">-</p>
+        </div>
+      </section>
+
+      <!-- ТРЕНД ГРАФИКА -->
+      <section id="chart-section">
+        <h2>Тренд — OEE по смени</h2>
+        <canvas id="trend-chart"></canvas>
+      </section>
+
+      <!-- АНОМАЛИИ -->
+      <section id="anomaly-section">
+        <h2>Засечени Аномалии</h2>
+        <ul id="anomaly-list"></ul>
+      </section>
+
+      <!-- ИСТОРИЧЕСКИ СЪВПАДЕНИЯ -->
+      <section id="historical-section">
+        <h2>Исторически Съвпадения</h2>
+        <ul id="historical-list"></ul>
+      </section>
+
+      <!-- ОПЕРАТОРСКИ КОМЕНТАР -->
+      <section id="comment-section">
+        <h2>Операторски Коментар</h2>
+        <p id="comment-date"></p>
+        <p id="comment-text"></p>
+      </section>
+
+    </div>
+
+    <!-- ДЯСНА КОЛОНА — COPILOT -->
+    <div id="right-col">
+      <section id="copilot-section">
+        <h2>Copilot Анализ</h2>
+
+        <button id="copilot-btn">Анализирай с Copilot</button>
+
+        <div id="copilot-content">
+          <h3>Текущо състояние</h3>
+          <p id="copilot-state">-</p>
+
+          <h3>Ключови аномалии</h3>
+          <ul id="copilot-anomalies"></ul>
+
+          <h3>Вероятни причини</h3>
+          <ul id="copilot-causes"></ul>
+
+          <h3>Препоръчани действия</h3>
+          <ul id="copilot-actions"></ul>
+        </div>
+
+      </section>
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
