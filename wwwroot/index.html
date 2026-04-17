@@ -1,92 +1,146 @@
-<meta charset="UTF-8">
-<div class="upload-section" style="padding: 20px; background: #f8f9fa; border-radius: 8px; max-width: 600px; margin: 20px auto; font-family: Arial, sans-serif;">
-    <h3 style="margin-top: 0; color: #333;"> Дневен План (Excel Upload)</h3>
-    <p style="color: #666; font-size: 14px;">Качете Excel файла с таргетите за деня, за да сверим реалното производство.</p>
-    
-    <input type="file" id="excelFileInput" accept=".xlsx, .xls" style="margin-bottom: 15px; display: block;" />
-    
-    <button onclick="uploadExcelPlan()" style="background: #0056b3; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">
-        Анализирай Плана
-    </button>
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="UTF-8">
+  <title>Production Insight Copilot</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; background-color: #1a1a2e; color: #e0e0e0; padding: 20px; }
+    header { display: flex; justify-content: space-between; align-items: center; background-color: #16213e; padding: 16px 24px; border-radius: 8px; margin-bottom: 12px; }
+    header h1 { font-size: 1.4rem; color: #00d4ff; }
+    #health-badge { padding: 6px 16px; border-radius: 20px; font-weight: bold; background-color: #f0a500; color: #1a1a2e; }
+    #meta-bar { display: flex; gap: 24px; background-color: #16213e; padding: 10px 24px; border-radius: 8px; margin-bottom: 12px; font-size: 0.9rem; color: #aaa; }
+    #meta-bar strong { color: #e0e0e0; }
+    #scenarios { display: flex; gap: 10px; margin-bottom: 20px; }
+    .scenario-btn { padding: 10px 20px; border: 2px solid #00d4ff; border-radius: 6px; background-color: transparent; color: #00d4ff; cursor: pointer; font-size: 0.9rem; }
+    .scenario-btn:hover, .scenario-btn.active { background-color: #00d4ff; color: #1a1a2e; font-weight: bold; }
+    #dashboard-grid { display: grid; grid-template-columns: 1fr 380px; gap: 20px; }
+    #kpi-section { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px; }
+    .kpi-card { background-color: #16213e; border-radius: 8px; padding: 16px; text-align: center; border-left: 4px solid #555; }
+    .kpi-card h3 { font-size: 0.8rem; color: #aaa; margin-bottom: 8px; text-transform: uppercase; }
+    .kpi-value { font-size: 1.8rem; font-weight: bold; color: #e0e0e0; }
+    .kpi-target { font-size: 0.8rem; color: #aaa; margin-top: 4px; }
+    .kpi-delta { font-size: 0.9rem; font-weight: bold; margin-top: 4px; }
+    .status-green { border-left-color: #00c853; }
+    .status-green .kpi-delta { color: #00c853; }
+    .status-yellow { border-left-color: #f0a500; }
+    .status-yellow .kpi-delta { color: #f0a500; }
+    .status-red { border-left-color: #d50000; }
+    .status-red .kpi-delta { color: #d50000; }
+    section { background-color: #16213e; border-radius: 8px; padding: 20px; margin-bottom: 16px; }
+    section h2 { font-size: 1rem; color: #00d4ff; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+    #chart-section canvas { max-height: 220px; }
+    #anomaly-list li, #historical-list li { padding: 8px 12px; margin-bottom: 6px; border-radius: 4px; background-color: #0f3460; list-style: none; font-size: 0.9rem; }
+    #comment-date { font-size: 0.8rem; color: #aaa; margin-bottom: 6px; }
+    #comment-text { font-style: italic; color: #ccc; }
+    #copilot-btn { width: 100%; padding: 12px; background-color: #00d4ff; color: #1a1a2e; border: none; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; margin-bottom: 20px; }
+    #copilot-btn:hover { background-color: #00b8d9; }
+    #copilot-content h3 { font-size: 0.85rem; color: #aaa; text-transform: uppercase; margin-top: 16px; margin-bottom: 6px; }
+    #copilot-content p, #copilot-content li { font-size: 0.9rem; color: #ccc; line-height: 1.5; }
+    #copilot-content ul { padding-left: 16px; }
+    #copilot-content li { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
 
-    <div id="resultsContainer" style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px;">
+  <header>
+    <h1>Production Insight Copilot</h1>
+    <span id="health-badge">Зареждане...</span>
+  </header>
+
+  <div id="meta-bar">
+    <span>Линия: <strong id="meta-line">-</strong></span>
+    <span>Смяна: <strong id="meta-shift">-</strong></span>
+    <span>Период: <strong id="meta-date">-</strong></span>
+    <span>Сценарий: <strong id="meta-scenario">-</strong></span>
+  </div>
+
+  <section id="scenarios">
+    <button class="scenario-btn" data-scenario="1">Микро-спирания</button>
+    <button class="scenario-btn" data-scenario="2">Performance vs Качество</button>
+    <button class="scenario-btn" data-scenario="3">Предиктивна Поддръжка</button>
+  </section>
+
+  <main id="dashboard-grid">
+
+    <div id="left-col">
+
+      <section id="kpi-section">
+        <div class="kpi-card" id="kpi-availability">
+          <h3>Наличност</h3>
+          <p class="kpi-value">-</p>
+          <p class="kpi-target">Цел: -</p>
+          <p class="kpi-delta">-</p>
+        </div>
+        <div class="kpi-card" id="kpi-performance">
+          <h3>Performance</h3>
+          <p class="kpi-value">-</p>
+          <p class="kpi-target">Цел: -</p>
+          <p class="kpi-delta">-</p>
+        </div>
+        <div class="kpi-card" id="kpi-quality">
+          <h3>Качество</h3>
+          <p class="kpi-value">-</p>
+          <p class="kpi-target">Цел: -</p>
+          <p class="kpi-delta">-</p>
+        </div>
+        <div class="kpi-card" id="kpi-oee">
+          <h3>OEE</h3>
+          <p class="kpi-value">-</p>
+          <p class="kpi-target">Цел: -</p>
+          <p class="kpi-delta">-</p>
+        </div>
+        <div class="kpi-card" id="kpi-energy">
+          <h3>Енергоинтензивност</h3>
+          <p class="kpi-value">-</p>
+          <p class="kpi-target">Цел: -</p>
+          <p class="kpi-delta">-</p>
+        </div>
+      </section>
+
+      <section id="chart-section">
+        <h2>Тренд — OEE по смени</h2>
+        <canvas id="trend-chart"></canvas>
+      </section>
+
+      <section id="anomaly-section">
+        <h2>Засечени Аномалии</h2>
+        <ul id="anomaly-list"></ul>
+      </section>
+
+      <section id="historical-section">
+        <h2>Исторически Съвпадения</h2>
+        <ul id="historical-list"></ul>
+      </section>
+
+      <section id="comment-section">
+        <h2>Операторски Коментар</h2>
+        <p id="comment-date"></p>
+        <p id="comment-text"></p>
+      </section>
+
     </div>
-</div>
-<script>
-    async function uploadExcelPlan() {
-        const fileInput = document.getElementById('excelFileInput');
-        const resultsContainer = document.getElementById('resultsContainer');
-        const file = fileInput.files[0];
 
-        // 1. Проверка дали потребителят е избрал файл
-        if (!file) {
-            alert("Моля, първо изберете Excel файл!");
-            return;
-        }
+    <div id="right-col">
+      <section id="copilot-section">
+        <h2>Copilot Анализ</h2>
+        <button id="copilot-btn">Анализирай с Copilot</button>
+        <div id="copilot-content">
+          <h3>Текущо състояние</h3>
+          <p id="copilot-state">-</p>
+          <h3>Ключови аномалии</h3>
+          <ul id="copilot-anomalies"></ul>
+          <h3>Вероятни причини</h3>
+          <ul id="copilot-causes"></ul>
+          <h3>Препоръчани действия</h3>
+          <ul id="copilot-actions"></ul>
+        </div>
+      </section>
+    </div>
 
-        // 2. Подготвяме файла за изпращане (FormData имитира HTML форма)
-        const formData = new FormData();
-        formData.append("file", file);
+  </main>
 
-        // Показваме надпис, че зареждаме
-        resultsContainer.innerHTML = "<p style='color: #666;'> Обработка на данните...</p>";
-
-        try {
-            // 3. Изпращаме файла към нашия C# Backend (към DashboardController)
-            const response = await fetch('/api/dashboard/upload-excel-targets', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                throw new Error("Възникна грешка при комуникацията със сървъра.");
-            }
-
-            // 4. Получаваме готовите сметнати данни от C# в JSON формат
-            const data = await response.json();
-
-            // 5. Визуализираме резултатите
-            displayResults(data);
-
-        } catch (error) {
-            console.error("Грешка:", error);
-            resultsContainer.innerHTML = `<p style="color: red;">Грешка при качване: ${error.message}</p>`;
-        }
-    }
-
-    // Тази функция "рисува" правоъгълниците (Зелено/Червено) на база на отговора от бекенда
-    function displayResults(data) {
-        const resultsContainer = document.getElementById('resultsContainer');
-        resultsContainer.innerHTML = ''; // Изчистваме стария текст "Зареждане..."
-
-        if (data.length === 0) {
-            resultsContainer.innerHTML = "<p>Няма намерени съвпадения за днес.</p>";
-            return;
-        }
-
-        // За всяка машина създаваме по една "картичка"
-        data.forEach(item => {
-            // Определяме цвета спрямо това, което ни е върнал C# кодът
-            const isGreen = item.deliveryStatus === "Green";
-            const bgColor = isGreen ? "#d4edda" : "#f8d7da";
-            const textColor = isGreen ? "#155724" : "#721c24";
-            const borderCol = isGreen ? "#c3e6cb" : "#f5c6cb";
-            const icon = isGreen ? "" : "";
-
-            const cardHtml = `
-                <div style="background: ${bgColor}; color: ${textColor}; border: 1px solid ${borderCol}; padding: 15px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <strong style="font-size: 16px;">Машина ID: ${item.machineId}</strong><br/>
-                        <span style="font-size: 14px;">План: <b>${item.target}</b> бр. | Произведени: <b>${item.actual}</b> бр.</span>
-                    </div>
-                    <div style="font-size: 24px;">
-                        ${icon}
-                    </div>
-                </div>
-            `;
-            
-            // Добавяме генерирания HTML към контейнера
-            resultsContainer.innerHTML += cardHtml;
-        });
-    }
-</script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
