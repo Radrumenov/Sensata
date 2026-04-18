@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Sensata")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2d7ffadcff610a785abc6b4543a78c0b699ae804")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+31ef16b68fa6ddc8661b2631590f5c429a55f3f2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Sensata")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Sensata")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -14,8 +14,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // CopilotService — чете GeminiSettings от appsettings.json
 // ПРАВИЛНО
+// СЕГАШНИЯ КОД — регистриран два пъти!
 builder.Services.AddHttpClient<CopilotService>();
-builder.Services.AddScoped<DashboardDataService>();
+builder.Services.AddScoped<CopilotService>();  // ← това е излишно и може да причини проблеми
 
 // DashboardDataService
 builder.Services.AddScoped<DashboardDataService>();
