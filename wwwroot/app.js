@@ -258,3 +258,20 @@ document.querySelectorAll(".scenario-btn").forEach(btn => {
 // ЗАРЕЖДА СЦЕНАРИЙ 1 ПО ПОДРАЗБИРАНЕ
 document.querySelector('[data-scenario="1"]').classList.add("active");
 loadDashboard(1);
+
+document.getElementById("workers-ai-btn").addEventListener("click", async () => {
+  const btn = document.getElementById("workers-ai-btn");
+  btn.textContent = "Zarezhda...";
+  try {
+    const response = await fetch("/api/data/ai/workers/1");
+    if (!response.ok) throw new Error("Greshka");
+    const result = await response.json();
+    alert(result.situationSummary + " " + result.managerNote);
+  } catch (err) {
+    alert("Greshka");
+  } finally {
+    btn.textContent = "AI Preporaka za Zamestnitsi";
+  }
+});
+
+
