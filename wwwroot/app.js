@@ -1,219 +1,177 @@
-// MOCK ДАННИ ЗА ТРИТЕ СЦЕНАРИЯ
-const mockData = {
+// MOCK COPILOT SUMMARIES — fallback ако AI endpoint се счупи
+const mockCopilot = {
   1: {
-    lineId: "L1",
-    healthStatus: "⚠ Предупреждение",
-    scenario: "Микро-спирания",
-    shift: "Смяна 2",
-    date: "17.04.2026",
-    kpis: {
-      availability: 98, performance: 82,
-      quality: 97, oee: 78, energyIntensity: 1.24
-    },
-    targets: {
-      availability: 95, performance: 95,
-      quality: 98, oee: 85, energyIntensity: 1.10
-    },
-    anomalies: [
-      "⚠ Performance под прага — 82% при цел 95%",
-      "⚠ Енергоинтензивност над baseline",
-      "⚠ Несъответствие: висока Наличност при ниска Performance"
-    ],
-    trend: [
-      { shift: "Смяна 1", oee: 84 },
-      { shift: "Смяна 2", oee: 81 },
-      { shift: "Смяна 3", oee: 79 },
-      { shift: "Смяна 4", oee: 78 },
-      { shift: "Смяна 5", oee: 78 }
-    ],
-    operatorComment: {
-      date: "17.04.2026", shift: "Смяна 2",
-      comment: "Чести задръствания на конвейера, изискващи ръчна намеса."
-    },
-    historicalMatches: [
-      "Случай 14.10.2025 — Сходен спад на Performance при конвейерно разместване"
-    ],
-    copilotSummary: {
-      currentState: "Линия L1 работи с висока наличност, но значително намалена ефективност, което индикира повтарящи се прекъсвания без пълно спиране.",
-      keyAnomalies: [
-        "Performance: 82% при цел 95% (-13%)",
-        "OEE: 78% при цел 85%",
-        "Енергоинтензивност над базовата линия"
-      ],
-      probableCauses: [
-        "Вероятно повтарящи се микро-спирания, незасичани от стандартните аларми",
-        "Операторският коментар за задръствания подкрепя тази хипотеза",
-        "Исторически случай от 14.10.2025 показва сходен модел"
-      ],
-      recommendedActions: [
-        "Проверка на конвейерното наклонение и синхронизация",
-        "Преглед на лога за микро-спирания в последните 3 смени",
-        "Инспекция на консистентността на суровините"
-      ]
-    }
+    currentState: "Линия L1 работи с висока наличност, но значително намалена ефективност, което индикира повтарящи се прекъсвания без пълно спиране.",
+    anomalies: ["Performance: 82% при цел 95% (-13%)", "OEE: 78% при цел 85%", "Енергоинтензивност над базовата линия"],
+    rootCauses: ["Вероятно повтарящи се микро-спирания, незасичани от стандартните аларми", "Операторският коментар за задръствания подкрепя тази хипотеза"],
+    recommendations: ["Проверка на конвейерното наклонение и синхронизация", "Преглед на лога за микро-спирания в последните 3 смени"]
   },
   2: {
-    lineId: "L1",
-    healthStatus: "🔴 Критично",
-    scenario: "Performance vs Качество",
-    shift: "Смяна 3",
-    date: "17.04.2026",
-    kpis: {
-      availability: 96, performance: 104,
-      quality: 91, oee: 81, energyIntensity: 1.15
-    },
-    targets: {
-      availability: 95, performance: 95,
-      quality: 98, oee: 85, energyIntensity: 1.10
-    },
-    anomalies: [
-      "🔴 Качество под прага — 91% при цел 98%",
-      "⚠ Performance над номинала — линията е ускорена",
-      "⚠ Конфликт между Performance и Качество"
-    ],
-    trend: [
-      { shift: "Смяна 1", oee: 85 },
-      { shift: "Смяна 2", oee: 84 },
-      { shift: "Смяна 3", oee: 83 },
-      { shift: "Смяна 4", oee: 81 },
-      { shift: "Смяна 5", oee: 79 }
-    ],
-    operatorComment: {
-      date: "17.04.2026", shift: "Смяна 3",
-      comment: "Линията е ускорена за навакасване на изоставане от предходната смяна."
-    },
-    historicalMatches: [
-      "Случай 02.03.2025 — Ускорение на линията доведе до 8% брак при подобни условия"
-    ],
-    copilotSummary: {
-      currentState: "Линията работи над номиналната скорост, което е причинило значителен спад в качеството на продукцията.",
-      keyAnomalies: [
-        "Качество: 91% при цел 98% (-7%)",
-        "Performance: 104% — над номинала",
-        "OEE: 81% при цел 85%"
-      ],
-      probableCauses: [
-        "Ускорението на линията вероятно е причина за повишен брак",
-        "При по-висока скорост параметрите на свързване излизат извън толеранс",
-        "Исторически случай от 02.03.2025 потвърждава тази зависимост"
-      ],
-      recommendedActions: [
-        "Връщане към номиналната скорост незабавно",
-        "Преглед на бракуваните единици от последните 2 смени",
-        "Проверка на параметрите на свързване при текущата скорост"
-      ]
-    }
+    currentState: "Линията работи над номиналната скорост, което е причинило значителен спад в качеството на продукцията.",
+    anomalies: ["Качество: 91% при цел 98% (-7%)", "Performance: 104% — над номинала", "OEE: 81% при цел 85%"],
+    rootCauses: ["Ускорението на линията вероятно е причина за повишен брак", "При по-висока скорост параметрите излизат извън толеранс"],
+    recommendations: ["Връщане към номиналната скорост незабавно", "Преглед на бракуваните единици от последните 2 смени"]
   },
   3: {
-    lineId: "L1",
-    healthStatus: "⚠ Предупреждение",
-    scenario: "Предиктивна Поддръжка",
-    shift: "Смяна 1",
-    date: "17.04.2026",
-    kpis: {
-      availability: 97, performance: 93,
-      quality: 98, oee: 84, energyIntensity: 1.41
-    },
-    targets: {
-      availability: 95, performance: 95,
-      quality: 98, oee: 85, energyIntensity: 1.10
-    },
-    anomalies: [
-      "⚠ Енергоинтензивност расте плавно 5 дни",
-      "⚠ Отклонение от baseline: +28%",
-      "⚠ Исторически съвпадение с повреда на лагер"
-    ],
-    trend: [
-      { shift: "Ден 1", oee: 86 },
-      { shift: "Ден 2", oee: 85 },
-      { shift: "Ден 3", oee: 85 },
-      { shift: "Ден 4", oee: 84 },
-      { shift: "Ден 5", oee: 84 }
-    ],
-    operatorComment: {
-      date: "17.04.2026", shift: "Смяна 1",
-      comment: "Лека вибрация забелязана при главния задвижващ механизъм."
-    },
-    historicalMatches: [
-      "Случай 08.07.2024 — Постепенно нарастване на енергоинтензивност предшества повреда на лагер след 6 дни"
-    ],
-    copilotSummary: {
-      currentState: "OEE остава близо до целта, но устойчивото нарастване на енергоинтензивността индикира ранен предупредителен сигнал за механичен проблем.",
-      keyAnomalies: [
-        "Енергоинтензивност: 1.41 kWh/ед при цел 1.10 (+28%)",
-        "Тренд: 5 последователни дни на нарастване",
-        "Исторически съвпадение с повреда на лагер"
-      ],
-      probableCauses: [
-        "Вероятно механично триене или повишено съпротивление в задвижването",
-        "Възможна деградация на лагер или охладителна система",
-        "Операторската забележка за вибрация подкрепя тази хипотеза"
-      ],
-      recommendedActions: [
-        "Планиране на превантивен преглед в следващия maintenance прозорец",
-        "Проверка на вибрациите с диагностичен инструмент",
-        "Мониторинг на енергоинтензивността на всеки 4 часа"
-      ]
-    }
+    currentState: "OEE остава близо до целта, но устойчивото нарастване на енергоинтензивността индикира ранен предупредителен сигнал.",
+    anomalies: ["Енергоинтензивност: над baseline +28%", "Тренд: 5 последователни дни на нарастване", "Исторически съвпадение с повреда на лагер"],
+    rootCauses: ["Вероятно механично триене или повишено съпротивление в задвижването", "Операторската забележка за вибрация подкрепя тази хипотеза"],
+    recommendations: ["Планиране на превантивен преглед в следващия maintenance прозорец", "Проверка на вибрациите с диагностичен инструмент"]
   }
 };
 
-// ГЛОБАЛНА РЕФЕРЕНЦИЯ КЪМ ГРАФИКАТА
+// ГЛОБАЛНИ ПРОМЕНЛИВИ
 let trendChart = null;
+let currentLineId = 1;
+let currentScenarioIndex = 1;
 
-// ЗАРЕЖДАНЕ НА СЦЕНАРИЙ
+// ЗАРЕЖДА СЦЕНАРИЙ ОТ РЕАЛНИЯ BACKEND
 async function loadDashboard(scenarioId) {
-  const data = mockData[scenarioId];
+  currentScenarioIndex = scenarioId;
 
-  // Мета бар
-  document.getElementById("meta-line").textContent = data.lineId;
-  document.getElementById("meta-shift").textContent = data.shift;
-  document.getElementById("meta-date").textContent = data.date;
-  document.getElementById("meta-scenario").textContent = data.scenario;
+  try {
+    const response = await fetch('/api/data/scenarios');
+    if (!response.ok) throw new Error("Backend грешка");
+    const scenarios = await response.json();
 
-  // Health badge
+    // Намираме сценария по scenarioId
+    const scenario = scenarios.find(s => s.scenarioId == scenarioId)
+                  || scenarios[scenarioId - 1];
+    if (!scenario) throw new Error("Сценарият не е намерен");
+
+    // Запазваме lineId за Copilot повикването
+    currentLineId = scenario.lineId;
+
+    // Последната смяна = текущите KPI стойности
+    const trend = scenario.trend || [];
+    const lastShift = trend[trend.length - 1];
+    if (!lastShift) throw new Error("Няма trend данни");
+
+    // Targets от backend или defaults
+    const targets = scenario.targets || {
+      oee: 85, quality: 98, availability: 95, performance: 95, energyIntensity: 1.10
+    };
+
+    // МЕТА БАР
+    document.getElementById("meta-line").textContent = scenario.lineName || scenario.lineId || "L1";
+    document.getElementById("meta-shift").textContent = lastShift.shiftName || "-";
+    document.getElementById("meta-date").textContent = lastShift.date || "-";
+    document.getElementById("meta-scenario").textContent = scenario.scenarioLabel || "-";
+
+    // HEALTH BADGE
+    const badge = document.getElementById("health-badge");
+    const oee = lastShift.oee || 0;
+    if (oee < 75) { badge.textContent = "🔴 Критично"; badge.className = "badge-red"; }
+    else if (oee < 85) { badge.textContent = "⚠ Предупреждение"; badge.className = "badge-yellow"; }
+    else { badge.textContent = "✅ Нормално"; badge.className = "badge-green"; }
+
+    // KPI КАРТИ
+    updateKpiCard("availability", lastShift.availability, targets.availability || 95, "%");
+    updateKpiCard("performance", lastShift.performance, targets.performance || 95, "%");
+    updateKpiCard("quality", lastShift.quality, targets.quality || 98, "%");
+    updateKpiCard("oee", lastShift.oee, targets.oee || 85, "%");
+    updateKpiCard("energy", lastShift.energyIntensity, targets.energyIntensity || 1.10, " kWh/ед");
+
+    // АНОМАЛИИ
+    const anomalies = [];
+    if (lastShift.performance < (targets.performance || 95))
+      anomalies.push(`⚠ Performance под прага — ${lastShift.performance.toFixed(1)}% при цел ${targets.performance || 95}%`);
+    if (lastShift.quality < (targets.quality || 98))
+      anomalies.push(`⚠ Качество под прага — ${lastShift.quality.toFixed(1)}% при цел ${targets.quality || 98}%`);
+    if (lastShift.oee < (targets.oee || 85))
+      anomalies.push(`⚠ OEE под прага — ${lastShift.oee.toFixed(1)}% при цел ${targets.oee || 85}%`);
+    if (lastShift.energyIntensity > (targets.energyIntensity || 1.10))
+      anomalies.push(`⚠ Енергоинтензивност над baseline — ${lastShift.energyIntensity.toFixed(2)} kWh/ед`);
+    if (anomalies.length === 0)
+      anomalies.push("✅ Няма засечени аномалии");
+
+    document.getElementById("anomaly-list").innerHTML =
+      anomalies.map(a => `<li>${a}</li>`).join("");
+
+    // ИСТОРИЧЕСКИ СЪВПАДЕНИЯ
+    document.getElementById("historical-list").innerHTML =
+      `<li>📋 ${scenario.summary || "Няма исторически съвпадения."}</li>`;
+
+    // ОПЕРАТОРСКИ КОМЕНТАР
+    document.getElementById("comment-date").textContent = lastShift.date || "-";
+    document.getElementById("comment-text").textContent =
+      lastShift.operatorComment && lastShift.operatorComment !== "OK"
+        ? lastShift.operatorComment
+        : "Няма специален коментар за тази смяна.";
+
+    // ГРАФИКА
+    renderChart(trend);
+    resetCopilot();
+
+  } catch (err) {
+    console.warn("Backend не е достъпен — зареждам mock данни. Грешка:", err.message);
+    loadMock(scenarioId);
+  }
+}
+
+// MOCK FALLBACK
+function loadMock(scenarioId) {
+  const mock = {
+    1: { label: "Микро-спирания", line: "TPMS Assembly Line", shift: "Смяна 2", date: "17.04.2026",
+         availability: 98, performance: 82, quality: 97, oee: 78, energy: 1.24,
+         comment: "Чести задръствания на конвейера, изискващи ръчна намеса.",
+         historical: "Случай 14.10.2025 — Сходен спад при конвейерно разместване",
+         trend: [{s:"Смяна 1",oee:84},{s:"Смяна 2",oee:81},{s:"Смяна 3",oee:79},{s:"Смяна 4",oee:78},{s:"Смяна 5",oee:78}]
+    },
+    2: { label: "Performance vs Качество", line: "Brake Switch Line", shift: "Смяна 3", date: "17.04.2026",
+         availability: 96, performance: 104, quality: 91, oee: 81, energy: 1.15,
+         comment: "Линията е ускорена за навакасване на изоставане.",
+         historical: "Случай 02.03.2025 — Ускорение доведе до 8% брак",
+         trend: [{s:"Смяна 1",oee:85},{s:"Смяна 2",oee:84},{s:"Смяна 3",oee:83},{s:"Смяна 4",oee:81},{s:"Смяна 5",oee:79}]
+    },
+    3: { label: "Предиктивна Поддръжка", line: "TPMS Assembly Line", shift: "Смяна 1", date: "17.04.2026",
+         availability: 97, performance: 93, quality: 98, oee: 84, energy: 1.41,
+         comment: "Лека вибрация забелязана при главния задвижващ механизъм.",
+         historical: "Случай 08.07.2024 — Нарастване на енергоинтензивност преди повреда на лагер",
+         trend: [{s:"Ден 1",oee:86},{s:"Ден 2",oee:85},{s:"Ден 3",oee:85},{s:"Ден 4",oee:84},{s:"Ден 5",oee:84}]
+    }
+  };
+
+  const d = mock[scenarioId];
+  document.getElementById("meta-line").textContent = d.line;
+  document.getElementById("meta-shift").textContent = d.shift;
+  document.getElementById("meta-date").textContent = d.date;
+  document.getElementById("meta-scenario").textContent = d.label;
+
   const badge = document.getElementById("health-badge");
-  badge.textContent = data.healthStatus;
-  badge.className = data.healthStatus.includes("Критично") ? "badge-red" : "badge-yellow";
+  if (d.oee < 75) { badge.textContent = "🔴 Критично"; badge.className = "badge-red"; }
+  else if (d.oee < 85) { badge.textContent = "⚠ Предупреждение"; badge.className = "badge-yellow"; }
+  else { badge.textContent = "✅ Нормално"; badge.className = "badge-green"; }
 
-  // KPI карти
-  updateKpiCard("availability", data.kpis.availability, data.targets.availability, "%");
-  updateKpiCard("performance", data.kpis.performance, data.targets.performance, "%");
-  updateKpiCard("quality", data.kpis.quality, data.targets.quality, "%");
-  updateKpiCard("oee", data.kpis.oee, data.targets.oee, "%");
-  updateKpiCard("energy", data.kpis.energyIntensity, data.targets.energyIntensity, " kWh/ед");
+  updateKpiCard("availability", d.availability, 95, "%");
+  updateKpiCard("performance", d.performance, 95, "%");
+  updateKpiCard("quality", d.quality, 98, "%");
+  updateKpiCard("oee", d.oee, 85, "%");
+  updateKpiCard("energy", d.energy, 1.10, " kWh/ед");
 
-  // Аномалии
-  document.getElementById("anomaly-list").innerHTML =
-    data.anomalies.map(a => `<li>${a}</li>`).join("");
+  const anomalies = [];
+  if (d.performance < 95) anomalies.push(`⚠ Performance под прага — ${d.performance}% при цел 95%`);
+  if (d.quality < 98) anomalies.push(`⚠ Качество под прага — ${d.quality}% при цел 98%`);
+  if (d.oee < 85) anomalies.push(`⚠ OEE под прага — ${d.oee}% при цел 85%`);
+  if (d.energy > 1.10) anomalies.push(`⚠ Енергоинтензивност над baseline — ${d.energy} kWh/ед`);
 
-  // Исторически съвпадения
-  document.getElementById("historical-list").innerHTML =
-    data.historicalMatches.map(h => `<li>📋 ${h}</li>`).join("");
-
-  // Операторски коментар
-  document.getElementById("comment-date").textContent =
-    `${data.operatorComment.date} — ${data.operatorComment.shift}`;
-  document.getElementById("comment-text").textContent =
-    data.operatorComment.comment;
-
-  // Графика
-  renderChart(data.trend);
-
-  // Нулира Copilot панела
+  document.getElementById("anomaly-list").innerHTML = anomalies.map(a => `<li>${a}</li>`).join("");
+  document.getElementById("historical-list").innerHTML = `<li>📋 ${d.historical}</li>`;
+  document.getElementById("comment-date").textContent = d.date;
+  document.getElementById("comment-text").textContent = d.comment;
+  renderChart(d.trend.map(t => ({ shiftName: t.s, oee: t.oee })));
   resetCopilot();
 }
 
 // KPI КАРТА
 function updateKpiCard(id, actual, target, unit) {
   const card = document.getElementById(`kpi-${id}`);
+  if (!card || actual === undefined || actual === null) return;
   const delta = actual - target;
   const status = delta >= 0 ? "green" : delta > -5 ? "yellow" : "red";
-
   card.querySelector(".kpi-value").textContent = `${actual}${unit}`;
   card.querySelector(".kpi-target").textContent = `Цел: ${target}${unit}`;
-  card.querySelector(".kpi-delta").textContent =
-    `${delta > 0 ? "+" : ""}${delta.toFixed(1)}${unit}`;
+  card.querySelector(".kpi-delta").textContent = `${delta > 0 ? "+" : ""}${delta.toFixed(1)}${unit}`;
   card.className = `kpi-card status-${status}`;
 }
 
@@ -221,11 +179,10 @@ function updateKpiCard(id, actual, target, unit) {
 function renderChart(trend) {
   const ctx = document.getElementById("trend-chart").getContext("2d");
   if (trendChart) trendChart.destroy();
-
   trendChart = new Chart(ctx, {
     type: "line",
     data: {
-      labels: trend.map(t => t.shift),
+      labels: trend.map(t => t.shiftName || t.shift || t.s),
       datasets: [{
         label: "OEE %",
         data: trend.map(t => t.oee),
@@ -240,31 +197,48 @@ function renderChart(trend) {
       plugins: { legend: { labels: { color: "#e0e0e0" } } },
       scales: {
         x: { ticks: { color: "#aaa" }, grid: { color: "#333" } },
-        y: {
-          ticks: { color: "#aaa" }, grid: { color: "#333" },
-          min: 70, max: 100
-        }
+        y: { ticks: { color: "#aaa" }, grid: { color: "#333" }, min: 60, max: 100 }
       }
     }
   });
 }
 
-// COPILOT БУТОН
-document.getElementById("copilot-btn").addEventListener("click", () => {
-  const activeBtn = document.querySelector(".scenario-btn.active");
-  const scenarioId = activeBtn ? activeBtn.dataset.scenario : 1;
-  const summary = mockData[scenarioId].copilotSummary;
+// COPILOT БУТОН — вика /api/data/ai/analyze/{lineId}
+document.getElementById("copilot-btn").addEventListener("click", async () => {
+  document.getElementById("copilot-state").textContent = "Анализиране...";
+  document.getElementById("copilot-anomalies").innerHTML = "";
+  document.getElementById("copilot-causes").innerHTML = "";
+  document.getElementById("copilot-actions").innerHTML = "";
 
-  document.getElementById("copilot-state").textContent = summary.currentState;
-  document.getElementById("copilot-anomalies").innerHTML =
-    summary.keyAnomalies.map(a => `<li>${a}</li>`).join("");
-  document.getElementById("copilot-causes").innerHTML =
-    summary.probableCauses.map(c => `<li>${c}</li>`).join("");
-  document.getElementById("copilot-actions").innerHTML =
-    summary.recommendedActions.map(a => `<li>${a}</li>`).join("");
+  try {
+    const response = await fetch(`/api/data/ai/analyze/${currentLineId}`);
+    if (!response.ok) throw new Error("AI endpoint грешка");
+    const result = await response.json();
+
+    // Backend връща: currentState, anomalies, rootCauses, recommendations
+    document.getElementById("copilot-state").textContent =
+      result.currentState || "-";
+    document.getElementById("copilot-anomalies").innerHTML =
+      (result.anomalies || []).map(a => `<li>${a}</li>`).join("");
+    document.getElementById("copilot-causes").innerHTML =
+      (result.rootCauses || []).map(c => `<li>${c}</li>`).join("");
+    document.getElementById("copilot-actions").innerHTML =
+      (result.recommendations || []).map(a => `<li>${a}</li>`).join("");
+
+  } catch (err) {
+    // Fallback към mock
+    const summary = mockCopilot[currentScenarioIndex];
+    document.getElementById("copilot-state").textContent = summary.currentState;
+    document.getElementById("copilot-anomalies").innerHTML =
+      summary.anomalies.map(a => `<li>${a}</li>`).join("");
+    document.getElementById("copilot-causes").innerHTML =
+      summary.rootCauses.map(c => `<li>${c}</li>`).join("");
+    document.getElementById("copilot-actions").innerHTML =
+      summary.recommendations.map(a => `<li>${a}</li>`).join("");
+  }
 });
 
-// НУЛИРА COPILOT ПАНЕЛА ПРИ СМЯНА НА СЦЕНАРИЙ
+// НУЛИРА COPILOT
 function resetCopilot() {
   document.getElementById("copilot-state").textContent = "-";
   document.getElementById("copilot-anomalies").innerHTML = "";
