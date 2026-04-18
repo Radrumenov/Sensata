@@ -1,8 +1,16 @@
 {
   "Files": [
     {
+      "Id": "/home/radi/Documents/Sensata/wwwroot/app.js",
+      "PackagePath": "staticwebassets/app.js"
+    },
+    {
       "Id": "/home/radi/Documents/Sensata/wwwroot/index.html",
       "PackagePath": "staticwebassets/index.html"
+    },
+    {
+      "Id": "/home/radi/Documents/Sensata/wwwroot/style.css",
+      "PackagePath": "staticwebassets/style.css"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.Sensata.Microsoft.AspNetCore.StaticWebAssets.props",
