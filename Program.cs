@@ -13,8 +13,9 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite("Data Source=Sensata.db"));
 
 // CopilotService — чете GeminiSettings от appsettings.json
+// ПРАВИЛНО
 builder.Services.AddHttpClient<CopilotService>();
-builder.Services.AddScoped<CopilotService>();
+builder.Services.AddScoped<DashboardDataService>();
 
 // DashboardDataService
 builder.Services.AddScoped<DashboardDataService>();
