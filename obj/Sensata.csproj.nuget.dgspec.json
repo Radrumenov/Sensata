@@ -64,6 +64,10 @@
               "target": "Package",
               "version": "[1.74.0, )"
             },
+            "Microsoft.SemanticKernel.Connectors.Google": {
+              "target": "Package",
+              "version": "[1.74.0-alpha, )"
+            },
             "MiniExcel": {
               "target": "Package",
               "version": "[1.43.0, )"
@@ -92,7 +96,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.125/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.126/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

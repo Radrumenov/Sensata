@@ -1,5 +1,4 @@
 /home/radi/Documents/Sensata/bin/Debug/net8.0/appsettings.Development.json
-/home/radi/Documents/Sensata/bin/Debug/net8.0/appsettings.json
 /home/radi/Documents/Sensata/bin/Debug/net8.0/Sensata
 /home/radi/Documents/Sensata/bin/Debug/net8.0/Sensata.deps.json
 /home/radi/Documents/Sensata/bin/Debug/net8.0/Sensata.runtimeconfig.json
@@ -197,3 +196,11 @@
 /home/radi/Documents/Sensata/bin/Debug/net8.0/runtimes/win-x64/native/e_sqlite3.dll
 /home/radi/Documents/Sensata/bin/Debug/net8.0/runtimes/win-x86/native/e_sqlite3.dll
 /home/radi/Documents/Sensata/obj/Debug/net8.0/Sensata.sourcelink.json
+/home/radi/Documents/Sensata/bin/Debug/net8.0/Google.Apis.dll
+/home/radi/Documents/Sensata/bin/Debug/net8.0/Google.Apis.Auth.dll
+/home/radi/Documents/Sensata/bin/Debug/net8.0/Google.Apis.Core.dll
+/home/radi/Documents/Sensata/bin/Debug/net8.0/Google.GenAI.dll
+/home/radi/Documents/Sensata/bin/Debug/net8.0/Microsoft.SemanticKernel.Connectors.Google.dll
+/home/radi/Documents/Sensata/bin/Debug/net8.0/Newtonsoft.Json.dll
+/home/radi/Documents/Sensata/bin/Debug/net8.0/System.Management.dll
+/home/radi/Documents/Sensata/bin/Debug/net8.0/runtimes/win/lib/net7.0/System.Management.dll

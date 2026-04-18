@@ -1,14 +1,10 @@
 namespace Sensata.Models;
 
 public class DailyTargetExcelModel
-    {
-        public DateTime Date { get; set; }
-        public int MachineId { get; set; }
-        public int PlannedQuantity { get; set; } 
-    }
+{
+    public DateTime Date { get; set; }
+    public int LineId { get; set; }          // беше MachineId — сега е LineId
+    public int PlannedQuantity { get; set; }
+}
 
-
-// excel template trqva da e po tozi nachin
-// if we want to use a excel file we need to use that tamplate
-// maybe i ca figure out some other way for now that is the way
-    
+// Excel шаблонът трябва да има колони: Date | LineId | PlannedQuantity
