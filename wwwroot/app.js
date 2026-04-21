@@ -237,6 +237,7 @@ async function loadWorkers() {
     const workers = await response.json();
     renderWorkerCards(workersGrid, workers);
   } catch (err) {
+    console.log("Зареждам mock работници:", mockWorkers.length);
     renderWorkerCards(workersGrid, mockWorkers);
   }
 }
