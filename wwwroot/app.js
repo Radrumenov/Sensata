@@ -256,7 +256,6 @@ function renderWorkerCards(container, workers) {
   ).join("");
 }
   
-loadDashboard(1);
 document.querySelector("[data-scenario='1']").classList.add("active");
 loadDashboard(1);
 loadWorkers();
