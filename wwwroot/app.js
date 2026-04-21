@@ -3,8 +3,8 @@ const mockCopilot = {
   1: {
     currentState: "Линия L1 работи с висока наличност, но значително намалена ефективност, което индикира повтарящи се прекъсвания без пълно спиране.",
     anomalies: ["Performance: 82% при цел 95% (-13%)", "OEE: 78% при цел 85%", "Енергоинтензивност над базовата линия"],
-    rootCauses: ["Вероятно повтарящи се микро-спирания, незасичани от стандартните аларми", "Операторският коментар за задръствания подкрепя тази хипотеза", "Исторически случай от 14.10.2025 показва сходен модел"],
-    recommendations: ["Проверка на конвейерното наклонение и синхронизация", "Преглед на лога за микро-спирания в последните 3 смени", "Инспекция на консистентността на суровините"]
+    rootCauses: ["Вероятно повтарящи се микро-спирания, незасичани от стандартните аларми", "Операторският коментар за задръствания подкрепя тази хипотеза"],
+    recommendations: ["Проверка на конвейерното наклонение и синхронизация", "Преглед на лога за микро-спирания в последните 3 смени"]
   },
   2: {
     currentState: "Линията работи над номиналната скорост, което е причинило значителен спад в качеството на продукцията.",
@@ -43,6 +43,18 @@ const mockData = {
     trend: [{s:"Ден 1",oee:86},{s:"Ден 2",oee:85},{s:"Ден 3",oee:85},{s:"Ден 4",oee:84},{s:"Ден 5",oee:84}]
   }
 };
+
+const mockWorkers = [
+  { name: "Иван Петров", skillSet: "assembly, soldering", skillLevel: "lead", isPresent: true },
+  { name: "Мария Иванова", skillSet: "assembly, quality-control", skillLevel: "senior", isPresent: false, absenceReason: "Болничен" },
+  { name: "Георги Стоев", skillSet: "soldering, assembly", skillLevel: "senior", isPresent: true },
+  { name: "Красимир Генов", skillSet: "pneumatics, machine-op", skillLevel: "lead", isPresent: true },
+  { name: "Весела Попова", skillSet: "pressing, quality-control", skillLevel: "senior", isPresent: false, absenceReason: "Отпуска" },
+  { name: "Тодор Василев", skillSet: "machine-op, maintenance", skillLevel: "senior", isPresent: true },
+  { name: "Светослав Пеев", skillSet: "automation, calibration", skillLevel: "lead", isPresent: true },
+  { name: "Иванка Добрева", skillSet: "automation, machine-op", skillLevel: "senior", isPresent: true },
+  { name: "Михаил Георгиев", skillSet: "automation, calibration", skillLevel: "lead", isPresent: false, absenceReason: "Болничен" }
+];
 
 let trendChart = null;
 let currentLineId = 1;
@@ -177,6 +189,26 @@ function renderChart(trend) {
   });
 }
 
+function renderWorkerCards(container, workers) {
+  container.innerHTML = workers.map(w =>
+    "<div class='worker-card " + (w.isPresent ? "worker-present" : "worker-absent") + "'>" +
+      "<div class='worker-name'>" + (w.name || "-") + "</div>" +
+      "<div class='worker-info'>" +
+        "Позиция: " + (w.skillSet || "-") + "<br>" +
+        "Ниво: " + (w.skillLevel || "-") + "<br>" +
+        "Статус: " + (w.isPresent ? "Присъства" : "Отсъства") +
+        (w.absenceReason ? "<br>Причина: " + w.absenceReason : "") +
+      "</div>" +
+    "</div>"
+  ).join("");
+}
+
+function loadWorkers() {
+  const workersGrid = document.getElementById("workers-grid");
+  if (!workersGrid) return;
+  renderWorkerCards(workersGrid, mockWorkers);
+}
+
 document.getElementById("copilot-btn").addEventListener("click", async () => {
   document.getElementById("copilot-state").textContent = "Анализиране...";
   document.getElementById("copilot-anomalies").innerHTML = "";
@@ -214,48 +246,6 @@ document.querySelectorAll(".scenario-btn").forEach(btn => {
   });
 });
 
-document.querySelector("[data-scenario='1']").classList.add("active");
-async function loadWorkers() {
-  const workersGrid = document.getElementById("workers-grid");
-  if (!workersGrid) return;
-
-  const mockWorkers = [
-    { name: "Иван Петров", skillSet: "assembly, soldering", skillLevel: "lead", isPresent: true },
-    { name: "Мария Иванова", skillSet: "assembly, quality-control", skillLevel: "senior", isPresent: false, absenceReason: "Болничен" },
-    { name: "Георги Стоев", skillSet: "soldering, assembly", skillLevel: "senior", isPresent: true },
-    { name: "Красимир Генов", skillSet: "pneumatics, machine-op", skillLevel: "lead", isPresent: true },
-    { name: "Весела Попова", skillSet: "pressing, quality-control", skillLevel: "senior", isPresent: false, absenceReason: "Отпуска" },
-    { name: "Тодор Василев", skillSet: "machine-op, maintenance", skillLevel: "senior", isPresent: true },
-    { name: "Светослав Пеев", skillSet: "automation, calibration", skillLevel: "lead", isPresent: true },
-    { name: "Иванка Добрева", skillSet: "automation, machine-op", skillLevel: "senior", isPresent: true },
-    { name: "Михаил Георгиев", skillSet: "automation, calibration", skillLevel: "lead", isPresent: false, absenceReason: "Болничен" }
-  ];
-
-  try {
-    const response = await fetch("/api/dashboard/workers/available");
-    if (!response.ok) throw new Error("Greshka");
-    const workers = await response.json();
-    renderWorkerCards(workersGrid, workers);
-  } catch (err) {
-    console.log("Зареждам mock работници:", mockWorkers.length);
-    renderWorkerCards(workersGrid, mockWorkers);
-  }
-}
-
-function renderWorkerCards(container, workers) {
-  container.innerHTML = workers.map(w =>
-    "<div class='worker-card " + (w.isPresent ? "worker-present" : "worker-absent") + "'>" +
-      "<div class='worker-name'>" + (w.name || "-") + "</div>" +
-      "<div class='worker-info'>" +
-        "Позиция: " + (w.skillSet || "-") + "<br>" +
-        "Ниво: " + (w.skillLevel || "-") + "<br>" +
-        "Статус: " + (w.isPresent ? "✅ Присъства" : "🔴 Отсъства") +
-        (w.absenceReason ? "<br>Причина: " + w.absenceReason : "") +
-      "</div>" +
-    "</div>"
-  ).join("");
-}
-  
 document.querySelector("[data-scenario='1']").classList.add("active");
 loadDashboard(1);
 loadWorkers();
