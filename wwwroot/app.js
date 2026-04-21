@@ -239,11 +239,11 @@ function resetCopilot() {
 }
 
 document.querySelectorAll(".scenario-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
+  btn.onclick = () => {
     document.querySelectorAll(".scenario-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     loadDashboard(btn.dataset.scenario);
-  });
+  };
 });
 
 document.querySelector("[data-scenario='1']").classList.add("active");
