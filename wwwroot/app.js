@@ -215,4 +215,53 @@ document.querySelectorAll(".scenario-btn").forEach(btn => {
 });
 
 document.querySelector("[data-scenario='1']").classList.add("active");
+async function loadWorkers() {
+  const workersGrid = document.getElementById("workers-grid");
+  if (!workersGrid) return;
+
+  workersGrid.innerHTML = "<p style='color:#aaa;'>Зареждане...</p>";
+
+  try {
+    const response = await fetch("/api/dashboard/workers/available");
+    if (!response.ok) throw new Error("Greshka");
+    const workers = await response.json();
+
+    workersGrid.innerHTML = workers.map(w =>
+      "<div class='worker-card " + (w.isPresent ? "worker-present" : "worker-absent") + "'>" +
+        "<div class='worker-name'>" + (w.name || "-") + "</div>" +
+        "<div class='worker-info'>" +
+          "Позиция: " + (w.skillSet || "-") + "<br>" +
+          "Ниво: " + (w.skillLevel || "-") + "<br>" +
+          "Статус: " + (w.isPresent ? "Присъства" : "Отсъства") + "<br>" +
+          (w.absenceReason && w.absenceReason !== "OK" ? "Причина: " + w.absenceReason : "") +
+        "</div>" +
+      "</div>"
+    ).join("");
+
+  } catch (err) {
+    // Mock работници ако backend не е достъпен
+    const mockWorkers = [
+      { name: "Иван Петров", skillSet: "assembly, pneumatics", skillLevel: "lead", isPresent: true },
+      { name: "Мария Иванова", skillSet: "quality control", skillLevel: "senior", isPresent: true },
+      { name: "Георги Димитров", skillSet: "soldering, assembly", skillLevel: "junior", isPresent: false, absenceReason: "Болничен" },
+      { name: "Петър Стоянов", skillSet: "logistics, control", skillLevel: "senior", isPresent: true },
+      { name: "Елена Николова", skillSet: "pressing, pneumatics", skillLevel: "lead", isPresent: true }
+    ];
+
+    workersGrid.innerHTML = mockWorkers.map(w =>
+      "<div class='worker-card " + (w.isPresent ? "worker-present" : "worker-absent") + "'>" +
+        "<div class='worker-name'>" + w.name + "</div>" +
+        "<div class='worker-info'>" +
+          "Позиция: " + w.skillSet + "<br>" +
+          "Ниво: " + w.skillLevel + "<br>" +
+          "Статус: " + (w.isPresent ? "Присъства" : "Отсъства") + "<br>" +
+          (w.absenceReason ? "Причина: " + w.absenceReason : "") +
+        "</div>" +
+      "</div>"
+    ).join("");
+  }
+}
 loadDashboard(1);
+document.querySelector("[data-scenario='1']").classList.add("active");
+loadDashboard(1);
+loadWorkers();
