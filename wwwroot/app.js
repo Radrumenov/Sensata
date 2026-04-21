@@ -219,48 +219,42 @@ async function loadWorkers() {
   const workersGrid = document.getElementById("workers-grid");
   if (!workersGrid) return;
 
-  workersGrid.innerHTML = "<p style='color:#aaa;'>Зареждане...</p>";
+  const mockWorkers = [
+    { name: "Иван Петров", skillSet: "assembly, soldering", skillLevel: "lead", isPresent: true },
+    { name: "Мария Иванова", skillSet: "assembly, quality-control", skillLevel: "senior", isPresent: false, absenceReason: "Болничен" },
+    { name: "Георги Стоев", skillSet: "soldering, assembly", skillLevel: "senior", isPresent: true },
+    { name: "Красимир Генов", skillSet: "pneumatics, machine-op", skillLevel: "lead", isPresent: true },
+    { name: "Весела Попова", skillSet: "pressing, quality-control", skillLevel: "senior", isPresent: false, absenceReason: "Отпуска" },
+    { name: "Тодор Василев", skillSet: "machine-op, maintenance", skillLevel: "senior", isPresent: true },
+    { name: "Светослав Пеев", skillSet: "automation, calibration", skillLevel: "lead", isPresent: true },
+    { name: "Иванка Добрева", skillSet: "automation, machine-op", skillLevel: "senior", isPresent: true },
+    { name: "Михаил Георгиев", skillSet: "automation, calibration", skillLevel: "lead", isPresent: false, absenceReason: "Болничен" }
+  ];
 
   try {
     const response = await fetch("/api/dashboard/workers/available");
     if (!response.ok) throw new Error("Greshka");
     const workers = await response.json();
-
-    workersGrid.innerHTML = workers.map(w =>
-      "<div class='worker-card " + (w.isPresent ? "worker-present" : "worker-absent") + "'>" +
-        "<div class='worker-name'>" + (w.name || "-") + "</div>" +
-        "<div class='worker-info'>" +
-          "Позиция: " + (w.skillSet || "-") + "<br>" +
-          "Ниво: " + (w.skillLevel || "-") + "<br>" +
-          "Статус: " + (w.isPresent ? "Присъства" : "Отсъства") + "<br>" +
-          (w.absenceReason && w.absenceReason !== "OK" ? "Причина: " + w.absenceReason : "") +
-        "</div>" +
-      "</div>"
-    ).join("");
-
+    renderWorkerCards(workersGrid, workers);
   } catch (err) {
-    // Mock работници ако backend не е достъпен
-    const mockWorkers = [
-      { name: "Иван Петров", skillSet: "assembly, pneumatics", skillLevel: "lead", isPresent: true },
-      { name: "Мария Иванова", skillSet: "quality control", skillLevel: "senior", isPresent: true },
-      { name: "Георги Димитров", skillSet: "soldering, assembly", skillLevel: "junior", isPresent: false, absenceReason: "Болничен" },
-      { name: "Петър Стоянов", skillSet: "logistics, control", skillLevel: "senior", isPresent: true },
-      { name: "Елена Николова", skillSet: "pressing, pneumatics", skillLevel: "lead", isPresent: true }
-    ];
-
-    workersGrid.innerHTML = mockWorkers.map(w =>
-      "<div class='worker-card " + (w.isPresent ? "worker-present" : "worker-absent") + "'>" +
-        "<div class='worker-name'>" + w.name + "</div>" +
-        "<div class='worker-info'>" +
-          "Позиция: " + w.skillSet + "<br>" +
-          "Ниво: " + w.skillLevel + "<br>" +
-          "Статус: " + (w.isPresent ? "Присъства" : "Отсъства") + "<br>" +
-          (w.absenceReason ? "Причина: " + w.absenceReason : "") +
-        "</div>" +
-      "</div>"
-    ).join("");
+    renderWorkerCards(workersGrid, mockWorkers);
   }
 }
+
+function renderWorkerCards(container, workers) {
+  container.innerHTML = workers.map(w =>
+    "<div class='worker-card " + (w.isPresent ? "worker-present" : "worker-absent") + "'>" +
+      "<div class='worker-name'>" + (w.name || "-") + "</div>" +
+      "<div class='worker-info'>" +
+        "Позиция: " + (w.skillSet || "-") + "<br>" +
+        "Ниво: " + (w.skillLevel || "-") + "<br>" +
+        "Статус: " + (w.isPresent ? "✅ Присъства" : "🔴 Отсъства") +
+        (w.absenceReason ? "<br>Причина: " + w.absenceReason : "") +
+      "</div>" +
+    "</div>"
+  ).join("");
+}
+  
 loadDashboard(1);
 document.querySelector("[data-scenario='1']").classList.add("active");
 loadDashboard(1);
